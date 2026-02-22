@@ -2,26 +2,30 @@
 
 import platform
 import os
+import shutil
 
 name = "System Information"
-description = "Collects basic system and environment information."
+description = "Collects detailed system, environment, and capability information."
 supported = ["linux", "linux_root", "android", "termux", "termux_root", "windows", "macos"]
 
 def run(env):
-    print(f"[{name}] Collecting system information...")
+    print(f"[{name}] Collecting detailed system information...\n")
 
     info = {
-        "os": env["os"],
-        "environment": env["env"],
-        "root": env["root"],
-        "platform": platform.platform(),
-        "python_version": platform.python_version(),
-        "machine": platform.machine(),
-        "processor": platform.processor(),
+        "OS": env["os"],
+        "Environment": env["env"],
+        "Root Access": env["root"],
+        "Platform String": platform.platform(),
+        "Python Version": platform.python_version(),
+        "Machine Type": platform.machine(),
+        "Processor": platform.processor(),
+        "CPU Count": os.cpu_count(),
+        "Terminal Size": shutil.get_terminal_size().columns,
+        "Capabilities": env["capabilities"]
     }
 
-    for k, v in info.items():
-        print(f"  {k}: {v}")
+    for key, value in info.items():
+        print(f"  {key}: {value}")
 
-    print(f"[{name}] Done.\n")
+    print(f"\n[{name}] Completed.\n")
     return info
